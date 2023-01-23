@@ -5,9 +5,17 @@ using UnityEngine.AI;
 
 public class AIRobot : MonoBehaviour
 {
+    public enum stateMachine
+    {
+        Run,
+        Hide,
+        Death
+    }
+
     private NavMeshAgent _agent;
     private WayPoints _waypoints;
-    private Vector3 _endPos;
+    private stateMachine _machine;
+    public int _currentPos = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -21,21 +29,56 @@ public class AIRobot : MonoBehaviour
             Debug.Log("waypoints is null");
 
         SpawnManager.instance.Spawn();
+        _machine = stateMachine.Run;
     }
 
     // Update is called once per frame
     void Update()
     {
-        _agent.destination = _waypoints._wayPoints[1].position;
-        _endPos = _agent.destination;
-        DestroyRobot();
+        Debug.Log(_agent.destination);
+        RobotState();
     }
 
-    void DestroyRobot()
+    void RobotState()
     {
-        if (transform.position == _endPos)
+        switch(_machine)
         {
-            Destroy(this.gameObject);
+            case stateMachine.Run:
+                Run();
+                break;
+            case stateMachine.Hide:
+                StartCoroutine(Hide());
+                break;
+            case stateMachine.Death:
+                break;
         }
+    }
+
+    private void Run()
+    {
+        if (_agent.remainingDistance < .01)
+        {
+            
+            if (_currentPos < _waypoints._wayPoints.Count - 1)
+            {
+                _currentPos++;
+            }
+            _agent.destination = _waypoints._wayPoints[_currentPos].position;
+            _machine = stateMachine.Hide;
+        }
+    }
+
+    IEnumerator Hide()
+    {
+        _agent.isStopped = true;
+        yield return new WaitForSeconds(Random.Range(2f, 6f));
+        _agent.isStopped = false;
+        _machine = stateMachine.Run;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "PointB")
+            Destroy(this.gameObject);
     }
 }

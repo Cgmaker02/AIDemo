@@ -919,6 +919,7 @@ GameObject:
   - component: {fileID: 1489513664868354297}
   - component: {fileID: 1489513664583644505}
   - component: {fileID: 1489513664583644504}
+  - component: {fileID: 6615866875890652006}
   m_Layer: 0
   m_Name: AIRobot
   m_TagString: Untagged
@@ -975,9 +976,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31d5ff3273eeff841b91ace014a3eeb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _wayPoints:
-  - {fileID: 0}
-  - {fileID: 0}
+  _endPos: {x: 0, y: 0, z: 0}
+  _wayPos: {x: 0, y: 0, z: 0}
+  _currentPos: 0
 --- !u!195 &1489513664583644504
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1000,6 +1001,19 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!135 &6615866875890652006
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489513664858880693}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1489513664858880695
 GameObject:
   m_ObjectHideFlags: 0

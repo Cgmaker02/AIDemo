@@ -16,6 +16,7 @@ public class AIRobot : MonoBehaviour
     private WayPoints _waypoints;
     private stateMachine _machine;
     public int _currentPos = 0;
+    private Animator _anim;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,10 @@ public class AIRobot : MonoBehaviour
         _waypoints = GameObject.Find("Waypoints").GetComponent<WayPoints>();
         if (_waypoints == null)
             Debug.Log("waypoints is null");
+
+        _anim = GetComponent<Animator>();
+        if (_anim == null)
+            Debug.Log("The animator is null");
 
         SpawnManager.instance.Spawn();
         _machine = stateMachine.Run;
@@ -45,11 +50,15 @@ public class AIRobot : MonoBehaviour
         {
             case stateMachine.Run:
                 Run();
+                _anim.SetFloat("Speed", 3.1f);
+                _anim.SetBool("Hiding", false);
                 break;
             case stateMachine.Hide:
                 StartCoroutine(Hide());
+                _anim.SetBool("Hiding", true);
                 break;
             case stateMachine.Death:
+                _anim.SetTrigger("Death");
                 break;
         }
     }

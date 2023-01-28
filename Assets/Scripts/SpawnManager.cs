@@ -37,7 +37,7 @@ public class SpawnManager : MonoBehaviour
         yield return new WaitForSeconds(10f);
         _robotPool = Instantiate(_robotPrefab, _waypoints._wayPoints[0].position, Quaternion.identity);
         _robotPool.transform.parent = _spawnPool.transform;
-        Debug.Log("spawning");
+      
     }
 
     public void Spawn()

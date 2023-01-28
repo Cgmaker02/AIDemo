@@ -123,10 +123,13 @@ namespace GameDevHQ.FileBase.Plugins.FPS_Character_Controller
             Vector3 rot = transform.localEulerAngles; //store current rotation
             rot.y += mouseX * _lookSensitivity; //add our mouseX movement to the y axis
             transform.localRotation = Quaternion.AngleAxis(rot.y, Vector3.up); ////rotate along the y axis by movement amount
+            
 
             Vector3 camRot = _fpsCamera.transform.localEulerAngles; //store the current rotation
             camRot.x += -mouseY * _lookSensitivity; //add the mouseY movement to the x axis
             _fpsCamera.transform.localRotation = Quaternion.AngleAxis(camRot.x, Vector3.right); //rotate along the x axis by movement amount
+
+
         }
 
         void HeadBobbing()

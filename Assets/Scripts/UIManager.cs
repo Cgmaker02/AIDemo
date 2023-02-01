@@ -10,7 +10,7 @@ public class UIManager : MonoBehaviour
     public Text timeRemaining;
     private int _score;
     private int _aiCount;
-    private float _timeRemaining = 120;
+    private float _timeRemaining = 200;
 
     private static UIManager _instance;
     public static UIManager Instance
@@ -31,14 +31,17 @@ public class UIManager : MonoBehaviour
     {
         _instance = this;
         scoreText.text = "Score: 0";
-        timeRemaining.text = ("Time: 120");
+        timeRemaining.text = ("Time: 200");
     }
 
     // Update is called once per frame
     void Update()
     {
-        _timeRemaining =(_timeRemaining - Time.deltaTime);
-        timeRemaining.text = ("Time: " +(int) _timeRemaining);
+        if (_timeRemaining > 0)
+        {
+            _timeRemaining = (_timeRemaining - Time.deltaTime);
+            timeRemaining.text = ("Time: " + (int)_timeRemaining);
+        }
     }
 
     public void AddScore()
@@ -50,12 +53,6 @@ public class UIManager : MonoBehaviour
     public void AddAI()
     {
         _aiCount++;
-        aiCount.text = ("AICount: " + _aiCount);
-    }
-
-    public void SubtractAI()
-    {
-        _aiCount--;
         aiCount.text = ("AICount: " + _aiCount);
     }
 }

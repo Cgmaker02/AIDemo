@@ -119,7 +119,6 @@ namespace GameDevHQ.FileBase.Plugins.FPS_Character_Controller
         {
             float mouseX = Input.GetAxis("Mouse X"); //get mouse movement on the x
             float mouseY = Input.GetAxis("Mouse Y"); //get mouse movement on the y
-
             Vector3 rot = transform.localEulerAngles; //store current rotation
             rot.y += mouseX * _lookSensitivity; //add our mouseX movement to the y axis
             transform.localRotation = Quaternion.AngleAxis(rot.y, Vector3.up); ////rotate along the y axis by movement amount

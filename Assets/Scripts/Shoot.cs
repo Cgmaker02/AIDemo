@@ -2,14 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Cinemachine;
 
 public class Shoot : MonoBehaviour
 {
     [SerializeField]
     private LayerMask _mask;
-
-    public delegate void Die();
-    public static event Die die;
 
     // Start is called before the first frame update
     void Start()
@@ -29,8 +27,7 @@ public class Shoot : MonoBehaviour
                 if (hitInfo.collider.name == "AIRobot(Clone)")
                 {
                     Debug.Log("hit AI");
-                    if (die != null)
-                        die();
+                    hitInfo.transform.GetComponent<AIRobot>().StateMachineDeath();
                 }
             }
         }

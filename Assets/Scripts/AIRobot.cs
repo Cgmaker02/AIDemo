@@ -14,7 +14,7 @@ public class AIRobot : MonoBehaviour
 
     private NavMeshAgent _agent;
     private WayPoints _waypoints;
-    public stateMachine _machine;
+    private stateMachine _machine;
     public int _currentPos = 0;
     private Animator _anim;
     private Shoot _shoot;
@@ -34,15 +34,13 @@ public class AIRobot : MonoBehaviour
         if (_anim == null)
             Debug.Log("The animator is null");
 
-        _shoot = GameObject.Find("Main Camera").GetComponent<Shoot>();
+        _shoot = GameObject.Find("CM vcam1").GetComponent<Shoot>();
             if (_shoot == null)
             Debug.Log("shoot is null");
-
+        _machine = stateMachine.Run;
         SpawnManager.instance.Spawn();
         UIManager.Instance.AddAI();
-        _machine = stateMachine.Run;
 
-        Shoot.die += ShootState;
     }
 
     // Update is called once per frame
@@ -67,10 +65,9 @@ public class AIRobot : MonoBehaviour
                 break;
             case stateMachine.Death:
                 Debug.Log("death is upon you");
-                _anim.SetFloat("Speed", 0.0f);
+                _anim.SetFloat("Speed", 0.00f);
                 _agent.isStopped = true;
                 _anim.SetTrigger("Death");
-                UIManager.Instance.AddScore();
                 StartCoroutine(Death());
                 break;
         }
@@ -104,19 +101,16 @@ public class AIRobot : MonoBehaviour
             Destroy(this.gameObject);
     }
 
-    void ShootState()
-    {
-            _machine = stateMachine.Death;
-    }
-
     IEnumerator Death()
     {
         yield return new WaitForSeconds(5.0f);
         Destroy(this.gameObject);
     }
 
-    private void OnDisable()
+    public void StateMachineDeath()
     {
-        Shoot.die -= ShootState;
+        Debug.Log("Death Called", this.gameObject);
+        _machine = stateMachine.Death;
+        UIManager.Instance.AddScore();
     }
 }

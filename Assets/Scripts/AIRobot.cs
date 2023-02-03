@@ -18,6 +18,10 @@ public class AIRobot : MonoBehaviour
     public int _currentPos = 0;
     private Animator _anim;
     private Shoot _shoot;
+    [SerializeField]
+    private AudioSource _audio;
+    [SerializeField]
+    private AudioSource _audio2;
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +38,7 @@ public class AIRobot : MonoBehaviour
         if (_anim == null)
             Debug.Log("The animator is null");
 
-        _shoot = GameObject.Find("CM vcam1").GetComponent<Shoot>();
+        _shoot = GameObject.Find("Main Camera").GetComponent<Shoot>();
             if (_shoot == null)
             Debug.Log("shoot is null");
         _machine = stateMachine.Run;
@@ -98,7 +102,8 @@ public class AIRobot : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "PointB")
-            Destroy(this.gameObject);
+            _audio2.Play();
+            Destroy(this.gameObject, 2.0f);
     }
 
     IEnumerator Death()
@@ -112,5 +117,6 @@ public class AIRobot : MonoBehaviour
         Debug.Log("Death Called", this.gameObject);
         _machine = stateMachine.Death;
         UIManager.Instance.AddScore();
+        _audio.Play();
     }
 }

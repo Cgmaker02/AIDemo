@@ -9,10 +9,13 @@ public class UIManager : MonoBehaviour
     public Text aiCount;
     public Text timeRemaining;
     public Text youWin;
+    public Text lose;
     private int _score;
-    private int _aiCount;
+    public int _aiCount;
     public float _timeRemaining = 150;
     public int _killCount = 0;
+    public int _toTheEnd = 0;
+    public float _howMany;
 
     private static UIManager _instance;
     public static UIManager Instance
@@ -35,6 +38,7 @@ public class UIManager : MonoBehaviour
         scoreText.text = "Score: 0";
         timeRemaining.text = ("Time: 150");
         youWin.gameObject.SetActive(false);
+        lose.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -47,6 +51,7 @@ public class UIManager : MonoBehaviour
         }
 
         WinCondition();
+        LossCondition();
     }
 
     public void AddScore()
@@ -72,5 +77,19 @@ public class UIManager : MonoBehaviour
     public void AddKill()
     {
         _killCount++;
+    }
+
+    public void ToTheEnd()
+    {
+        _toTheEnd++;
+    }
+
+    void LossCondition()
+    {
+        _howMany = (_toTheEnd * 1.0f) / _aiCount;
+        if(_howMany >= .5f)
+        {
+            lose.gameObject.SetActive(true);
+        }
     }
 }

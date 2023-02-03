@@ -113,6 +113,7 @@ public class AIRobot : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "PointB")
+            UIManager.Instance.ToTheEnd();
             _audio2.Play();
             Destroy(this.gameObject, 2.0f);
     }

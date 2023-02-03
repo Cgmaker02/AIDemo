@@ -22,6 +22,7 @@ public class AIRobot : MonoBehaviour
     private AudioSource _audio;
     [SerializeField]
     private AudioSource _audio2;
+    private UIManager _manager;
 
     // Start is called before the first frame update
     void Start()
@@ -41,8 +42,18 @@ public class AIRobot : MonoBehaviour
         _shoot = GameObject.Find("Main Camera").GetComponent<Shoot>();
             if (_shoot == null)
             Debug.Log("shoot is null");
+
+        _manager = GameObject.Find("UIManager").GetComponent<UIManager>();
+        if (_manager == null)
+            Debug.Log("the manager is null");
+
         _machine = stateMachine.Run;
-        SpawnManager.instance.Spawn();
+
+        if (_manager._timeRemaining > 10)
+        {
+            SpawnManager.instance.Spawn();
+        }
+
         UIManager.Instance.AddAI();
 
     }
@@ -117,6 +128,7 @@ public class AIRobot : MonoBehaviour
         Debug.Log("Death Called", this.gameObject);
         _machine = stateMachine.Death;
         UIManager.Instance.AddScore();
+        UIManager.Instance.AddKill();
         _audio.Play();
     }
 }
